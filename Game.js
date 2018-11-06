@@ -14,9 +14,9 @@ class Game {
    */
   constructor ()
   {
-    this.MyNewImage = new MyImage(100, 100, 788, 219, "mycanvas");
+    this.MyNewImage = new MyImage(window.innerWidth / 3, window.innerHeight / 3, 788, 219, "mycanvas");
     this.MyNewImage.load("coin.png");
-    this.MyNewImage.setSpriteSheet(true, 30, 5);
+    this.MyNewImage.setSpriteSheet(true, 5, 5);
   }
 
   /**
