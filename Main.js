@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+// Dylan Murphy - 2018
 // Global Variable
 var gameNs = {};
 
