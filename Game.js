@@ -14,8 +14,11 @@ class Game {
    */
   constructor ()
   {
+    // Initialise your Image Asset giving, x & y position, width, height, canvas name it will be drawn on
     this.MyNewImage = new MyImage(window.innerWidth / 3, window.innerHeight / 3, 788, 219, "mycanvas");
+    // Load your image from path.
     this.MyNewImage.load("coin.png");
+    // Set your Image to be animated giving, a loop bool, the speed it will change, how many frames in image.
     this.MyNewImage.setSpriteSheet(true, 5, 5);
   }
 
@@ -35,6 +38,7 @@ class Game {
   update ()
   {
     gameNs.game.draw();
+    // Update Animation
     gameNs.game.MyNewImage.update();
     window.requestAnimationFrame(gameNs.game.update);
   }
@@ -49,6 +53,7 @@ class Game {
     var square = canvas.getContext('2d');
     square.clearRect(0,0, canvas.width, canvas.height);
 
+    // Draw Image / Animation.
     this.MyNewImage.draw();
   }
 
