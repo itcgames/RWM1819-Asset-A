@@ -20,6 +20,12 @@ class Game {
     this.MyNewImage.load("coin.png");
     // Set your Image to be animated giving, a loop bool, the speed it will change, how many frames in image.
     this.MyNewImage.setSpriteSheet(true, 5, 5);
+
+    this.BackgroundMusic = new MySound("MO", "Mo Bamba.mp3");
+
+    this.BackgroundMusic.load("Mo Bamba.mp3");
+    //this.BackgroundMusic.play();
+    this.counter = 0;
   }
 
   /**
@@ -37,9 +43,24 @@ class Game {
    */
   update ()
   {
+    gameNs.game.counter += 1;
     gameNs.game.draw();
     // Update Animation
     gameNs.game.MyNewImage.update();
+
+    if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == true)
+    {
+      gameNs.game.BackgroundMusic.pause();
+      gameNs.game.counter = 0;
+    }
+
+    if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == false)
+    {
+      gameNs.game.BackgroundMusic.play();
+      gameNs.game.counter = 0;
+    }
+
+    console.log(gameNs.game.counter);
     window.requestAnimationFrame(gameNs.game.update);
   }
 
