@@ -1,14 +1,21 @@
 /*jshint esversion: 6 */
-/**
- * function to create a sound object .
- * @param {String} name id for audio.
- * @param {String} path file path to sound location.
+
+ /**
+ * MySound class
+ * @class
+ * @classdesc This MySound class initialises audio.
  */
 class MySound {
 
+    /**
+ * MySound Default Constructor function
+ * @constructor Default Constructor
+ * @param {String} name id for audio.
+ * @param {String} path file path to sound location.
+ */
     constructor (name, path)
     {
-        
+        this.id = name;
         this.sound = document.createElement("audio");
         this.sound.id = name;
         this.isPlaying = false;

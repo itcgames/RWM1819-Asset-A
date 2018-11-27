@@ -1,16 +1,24 @@
 /*jshint esversion: 6 */
+
 /**
+ * MyImage class
+ * @class
+ * @classdesc This MyImage class initialises Images.
+ */
+class MyImage {
+
+    /**
  * function to create an image object given the co-ordinates and size
+ * @constructor Image Consructor function
  * @param {Integer} x x position.
  * @param {Integer} y y position.
  * @param {Integer} width width of the image.
  * @param {Integer} height height of the Image.
  * @param {String} canvasName name of canvas to be drawn on.
  */
-class MyImage {
-
-    constructor (x, y, width, height, canvasName)
+    constructor (id, x, y, width, height, canvasName)
     {
+        this.id = id;
         this.pic = new Image(width, height);
         this.x = x;
         this.y = y;

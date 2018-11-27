@@ -15,17 +15,24 @@ class Game {
   constructor ()
   {
     // Initialise your Image Asset giving, x & y position, width, height, canvas name it will be drawn on
-    this.MyNewImage = new MyImage(window.innerWidth / 3, window.innerHeight / 3, 788, 219, "mycanvas");
+    this.MyNewImage = new MyImage("coin", window.innerWidth / 3, window.innerHeight / 3, 788, 219, "mycanvas");
     // Load your image from path.
-    this.MyNewImage.load("coin.png");
+    this.MyNewImage.load("ASSETS//coin.png");
     // Set your Image to be animated giving, a loop bool, the speed it will change, how many frames in image.
     this.MyNewImage.setSpriteSheet(true, 5, 5);
 
-    this.BackgroundMusic = new MySound("MO", "Mo Bamba.mp3");
+    this.BackgroundMusic = new MySound("MO", "ASSETS//Mo Bamba.mp3");
 
-    this.BackgroundMusic.load("Mo Bamba.mp3");
-    //this.BackgroundMusic.play();
     this.counter = 0;
+
+    // Create an Asset manager
+    this.MyAssetManager = new AssetManager();
+    // Add Images to the manager
+    this.MyAssetManager.addImageAsset(this.MyNewImage);
+    this.MyAssetManager.find(this.MyAssetManager.ImageAssets, "coin");
+
+    // store image passed by reference from assset manager
+    this.image1 = this.MyAssetManager.find(this.MyAssetManager.ImageAssets, "coin");
   }
 
   /**
@@ -46,7 +53,7 @@ class Game {
     gameNs.game.counter += 1;
     gameNs.game.draw();
     // Update Animation
-    gameNs.game.MyNewImage.update();
+    gameNs.game.MyAssetManager.update();
 
     if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == true)
     {
@@ -66,7 +73,7 @@ class Game {
 
   /**
    * Game Draw function
-   * @function update
+   * @function draw
    */
   draw ()
   {
@@ -74,8 +81,8 @@ class Game {
     var square = canvas.getContext('2d');
     square.clearRect(0,0, canvas.width, canvas.height);
 
-    // Draw Image / Animation.
-    this.MyNewImage.draw();
+      // Use asset manager to draw
+      this.MyAssetManager.draw();
   }
 
 }
