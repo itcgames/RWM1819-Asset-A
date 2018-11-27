@@ -15,7 +15,40 @@ class AssetManager {
     constructor (){
         this.ImageAssets = [];
         this.SoundAssets = [];
-        this.JSONFiles = [];
+        this.isLoaded = false;
+        this.isSetUp = false;
+
+        var request = new XMLHttpRequest();
+        request.addEventListener("load", function requestListener(){
+        this.assets = JSON.parse(this.responseText);
+        this.images = this.assets.imageList[0];
+        this.sounds = this.assets.soundsList[0];
+
+        for (var key in this.sounds){
+            var value = this.sounds[key];
+            var sound = new MySound(key, value);
+            gameNs.game.MyAssetManager.addSoundAsset(sound);
+        }
+
+        for (var key2 in this.images){
+            var path = this.images[key2][0];
+            var x = this.images[key2][1];
+            var y = this.images[key2][2];
+            var width = this.images[key2][3];
+            var height = this.images[key2][4];
+            var canvas = this.images[key2][5];
+
+            var image = new MyImage(key2, x, y, width, height, canvas);
+            image.load(path);
+            gameNs.game.MyAssetManager.addImageAsset(image);
+        }
+
+        gameNs.game.MyAssetManager.isLoaded = true;
+        console.log("json load");
+        });
+
+        request.open("GET", "../demo/jsonAssets.json");
+        request.send();
     }
 
     /**
@@ -35,7 +68,7 @@ class AssetManager {
      * @param {sound} sound, sound file to be added to array
      */
     addSoundAsset(Sound) {
-        var mySound = sound;
+        var mySound = Sound;
         this.SoundAssets.push(mySound);
     }
 
@@ -89,7 +122,7 @@ class AssetManager {
             return temp;
         }
 
-        console.log(`Element: ${id} in array`, myArray);
+        console.log(`Cannot Find Element: ${id} in array`, myArray);
         return null;
     }
 

@@ -14,25 +14,11 @@ class Game {
    */
   constructor ()
   {
-    // Initialise your Image Asset giving, x & y position, width, height, canvas name it will be drawn on
-    this.MyNewImage = new MyImage("coin", window.innerWidth / 3, window.innerHeight / 3, 788, 219, "mycanvas");
-    // Load your image from path.
-    this.MyNewImage.load("ASSETS//coin.png");
-    // Set your Image to be animated giving, a loop bool, the speed it will change, how many frames in image.
-    this.MyNewImage.setSpriteSheet(true, 5, 5);
-
-    this.BackgroundMusic = new MySound("MO", "ASSETS//Mo Bamba.mp3");
-
     this.counter = 0;
 
     // Create an Asset manager
     this.MyAssetManager = new AssetManager();
-    // Add Images to the manager
-    this.MyAssetManager.addImageAsset(this.MyNewImage);
-    this.MyAssetManager.find(this.MyAssetManager.ImageAssets, "coin");
 
-    // store image passed by reference from assset manager
-    this.image1 = this.MyAssetManager.find(this.MyAssetManager.ImageAssets, "coin");
   }
 
   /**
@@ -50,25 +36,34 @@ class Game {
    */
   update ()
   {
-    gameNs.game.counter += 1;
-    gameNs.game.draw();
-    // Update Animation
-    gameNs.game.MyAssetManager.update();
-
-    if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == true)
+    if(gameNs.game.MyAssetManager.isLoaded === true && gameNs.game.MyAssetManager.isSetUp === false)
     {
-      gameNs.game.BackgroundMusic.pause();
-      gameNs.game.counter = 0;
+      gameNs.game.setUp();
     }
 
-    if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == false)
+    if(gameNs.game.MyAssetManager.isSetUp === true && gameNs.game.MyAssetManager.isLoaded === true)
     {
-      gameNs.game.BackgroundMusic.play();
-      gameNs.game.counter = 0;
+
+      gameNs.game.counter += 1;
+      gameNs.game.draw();
+      // Update Animation
+      gameNs.game.MyAssetManager.update();
+
+      if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == true)
+      {
+        gameNs.game.BackgroundMusic.pause();
+        gameNs.game.counter = 0;
+      }
+
+      if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == false)
+      {
+        gameNs.game.BackgroundMusic.play();
+        gameNs.game.counter = 0;
+      }
     }
 
-    console.log(gameNs.game.counter);
-    window.requestAnimationFrame(gameNs.game.update);
+      console.log(gameNs.game.counter);
+      window.requestAnimationFrame(gameNs.game.update);
   }
 
   /**
@@ -83,6 +78,22 @@ class Game {
 
       // Use asset manager to draw
       this.MyAssetManager.draw();
+  }
+
+  /**
+   * Game setUp function for when files are finished loading
+   * @function setUp
+   */
+  setUp ()
+  {
+    // setup sprite image from asset manager
+    this.coin = this.MyAssetManager.find(this.MyAssetManager.ImageAssets, "coin");
+    // set the sprite as animated
+    this.coin.setSpriteSheet(true, 5, 5);
+    // Initialise background music from asset manager
+    this.BackgroundMusic = this.MyAssetManager.find(this.MyAssetManager.SoundAssets, "Mo");
+    //confirm assets are setup
+    gameNs.game.MyAssetManager.isSetUp = true;
   }
 
 }
