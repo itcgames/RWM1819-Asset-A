@@ -12,7 +12,7 @@ class AssetManager {
    * @constructor Default Constructor
    * doesnt take in any parameters.
    */
-    constructor (){
+    constructor (assetspath){
         this.ImageAssets = [];
         this.SoundAssets = [];
         this.isLoaded = false;
@@ -47,7 +47,7 @@ class AssetManager {
         console.log("json load");
         });
 
-        request.open("GET", "../demo/jsonAssets.json");
+        request.open("GET", assetspath);
         request.send();
     }
 

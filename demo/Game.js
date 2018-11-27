@@ -17,7 +17,7 @@ class Game {
     this.counter = 0;
 
     // Create an Asset manager
-    this.MyAssetManager = new AssetManager();
+    this.MyAssetManager = new AssetManager("jsonAssets.json");
 
   }
 
