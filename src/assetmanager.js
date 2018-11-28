@@ -86,7 +86,9 @@ class AssetManager {
      */
     draw() {
         this.ImageAssets.forEach(function(i) {
-            i.draw();
+            if(i.active === true){
+                i.draw();
+            }
         });
     }
 
@@ -96,7 +98,6 @@ class AssetManager {
     * @function update
      */
     update() {
-
         this.ImageAssets.forEach(function(i) {
             if(i.spriteSheet === true){
                 i.update();

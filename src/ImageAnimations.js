@@ -32,6 +32,8 @@ class MyImage {
         this.ticksPerFrame = 0;
         this.numberPerFrame = 1;
         this.loop = true;
+        this.active = false;
+        this.rotate = 0;
     }
 
     /**
@@ -40,10 +42,21 @@ class MyImage {
     draw() {
         var canvas = document.getElementById(this.canvasName);
         var square = canvas.getContext('2d');
+
+        square.save(); 
+        
          if(!this.spriteSheet){
+            square.translate(this.x + (this.width / 2), this.y + (this.height / 2));
+            square.rotate(this.rotate);
+            square.translate((this.x + (this.width / 2)) * -1, (this.y + (this.height / 2)) * -1);
+
             square.drawImage(this.pic, this.x, this.y, this.width, this.height);
          }
          else{
+            square.translate(this.x + ((this.width / this.numberPerFrame) / 2), this.y + (this.height / 2));
+            square.rotate(this.rotate);
+            square.translate((this.x + ((this.width / this.numberPerFrame) / 2)) * -1, (this.y + (this.height / 2)) * -1);
+
             square.drawImage(
                 this.pic,
                 this.frameIndex * this.width / this.numberPerFrame,
@@ -55,6 +68,8 @@ class MyImage {
                 this.width / this.numberPerFrame ,
                 this.height);
          }
+
+         square.restore(); 
     }
 
     /**
@@ -121,6 +136,20 @@ class MyImage {
         this.tickCount = 0;
         this.ticksPerFrame = ticksperframe;
         this.numberPerFrame = numberperframe;
+    }
+
+     /**
+     * set active. 
+     */
+    setActive(isActive) {
+        this.active = isActive;
+    }
+
+    /**
+     * set rotation. 
+     */
+    setRotation(rads) {
+        this.rotate = rads;
     }
 
 }

@@ -49,15 +49,17 @@ class Game {
       // Update Animation
       gameNs.game.MyAssetManager.update();
 
-      if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == true)
+      if (gameNs.game.counter > 120 && gameNs.game.BackgroundMusic.isPlaying == true)
       {
         gameNs.game.BackgroundMusic.pause();
+        gameNs.game.coin.setRotation(0);
         gameNs.game.counter = 0;
       }
 
-      if (gameNs.game.counter > 240 && gameNs.game.BackgroundMusic.isPlaying == false)
+      if (gameNs.game.counter > 120 && gameNs.game.BackgroundMusic.isPlaying == false)
       {
         gameNs.game.BackgroundMusic.play();
+        gameNs.game.coin.setRotation(1.5708);
         gameNs.game.counter = 0;
       }
     }
@@ -90,6 +92,8 @@ class Game {
     this.coin = this.MyAssetManager.find(this.MyAssetManager.ImageAssets, "coin");
     // set the sprite as animated
     this.coin.setSpriteSheet(true, 5, 5);
+    this.coin.setActive(true);
+    this.coin.setRotation(1.5708);
     // Initialise background music from asset manager
     this.BackgroundMusic = this.MyAssetManager.find(this.MyAssetManager.SoundAssets, "Mo");
     //confirm assets are setup
