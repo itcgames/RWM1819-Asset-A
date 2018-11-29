@@ -52,6 +52,8 @@ class Game {
       if (gameNs.game.counter > 120 && gameNs.game.BackgroundMusic.isPlaying == true)
       {
         gameNs.game.BackgroundMusic.pause();
+        gameNs.game.hit.setVolume(0.1);
+        gameNs.game.hit.play();
         gameNs.game.coin.setRotation(0);
         gameNs.game.counter = 0;
       }
@@ -59,6 +61,9 @@ class Game {
       if (gameNs.game.counter > 120 && gameNs.game.BackgroundMusic.isPlaying == false)
       {
         gameNs.game.BackgroundMusic.play();
+        gameNs.game.hit.setVolume(1);
+        gameNs.game.hit.play();
+        console.log(gameNs.game.hit.sound.volume);
         gameNs.game.coin.setRotation(1.5708);
         gameNs.game.counter = 0;
       }
@@ -96,6 +101,7 @@ class Game {
     this.coin.setRotation(1.5708);
     // Initialise background music from asset manager
     this.BackgroundMusic = this.MyAssetManager.find(this.MyAssetManager.SoundAssets, "Mo");
+    this.hit = this.MyAssetManager.find(this.MyAssetManager.SoundAssets, "hit");
     //confirm assets are setup
     gameNs.game.MyAssetManager.isSetUp = true;
   }

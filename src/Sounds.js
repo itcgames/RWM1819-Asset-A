@@ -10,8 +10,8 @@ class MySound {
     /**
  * MySound Default Constructor function
  * @constructor Default Constructor
- * @param {String} name id for audio.
- * @param {String} path file path to sound location.
+ * @param {String} name, id for audio.
+ * @param {String} path, file path to sound location.
  */
     constructor (name, path)
     {
@@ -67,5 +67,16 @@ class MySound {
         console.log("Audio Warning: Ensure Google Chrome AutoPlay is enabled ");
     }
 
+    /**
+     * Set Volume
+     * @param {integer} vol, volume from 0 - 1
+     */
+    setVolume(vol) {
+        var temp = vol;
+        if(temp > 1){
+            temp = 1;
+        }
+        this.sound.volume = temp;
+    }
 
 }

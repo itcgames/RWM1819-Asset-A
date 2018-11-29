@@ -12,36 +12,36 @@ class AssetManager {
    * @constructor Default Constructor
    * doesnt take in any parameters.
    */
-    constructor (assetspath){
+    constructor (assetspath) {
         this.ImageAssets = [];
         this.SoundAssets = [];
         this.isLoaded = false;
         this.isSetUp = false;
 
         var request = new XMLHttpRequest();
-        request.addEventListener("load", function requestListener(){
-        this.assets = JSON.parse(this.responseText);
-        this.images = this.assets.imageList[0];
-        this.sounds = this.assets.soundsList[0];
+        request.addEventListener("load", function requestListener() {
+            this.assets = JSON.parse(this.responseText);
+            this.images = this.assets.imageList[0];
+            this.sounds = this.assets.soundsList[0];
 
-        for (var key in this.sounds){
-            var value = this.sounds[key];
-            var sound = new MySound(key, value);
-            gameNs.game.MyAssetManager.addSoundAsset(sound);
-        }
+            for (var key in this.sounds) {
+                var value = this.sounds[key];
+                var sound = new MySound(key, value);
+                gameNs.game.MyAssetManager.addSoundAsset(sound);
+            }
 
-        for (var key2 in this.images){
-            var path = this.images[key2][0];
-            var x = this.images[key2][1];
-            var y = this.images[key2][2];
-            var width = this.images[key2][3];
-            var height = this.images[key2][4];
-            var canvas = this.images[key2][5];
+            for (var key2 in this.images) {
+                var path = this.images[key2][0];
+                var x = this.images[key2][1];
+                var y = this.images[key2][2];
+                var width = this.images[key2][3];
+                var height = this.images[key2][4];
+                var canvas = this.images[key2][5];
 
-            var image = new MyImage(key2, x, y, width, height, canvas);
-            image.load(path);
-            gameNs.game.MyAssetManager.addImageAsset(image);
-        }
+                var image = new MyImage(key2, x, y, width, height, canvas);
+                image.load(path);
+                gameNs.game.MyAssetManager.addImageAsset(image);
+            }
 
         gameNs.game.MyAssetManager.isLoaded = true;
         console.log("json load");
@@ -76,7 +76,7 @@ class AssetManager {
      * Function to add a JSON Path
      * @function addjson
      */
-    addJson(){
+    addJson() {
 
     }
 
@@ -111,7 +111,7 @@ class AssetManager {
      * @param {array} myArray, target array to loop through
      * @param {string} id value of the target
      */
-    find(myArray, id){
+    find(myArray, id) {
         var temp;
         myArray.forEach(function(i){
             if(i.id === id){
@@ -119,7 +119,7 @@ class AssetManager {
             }
         });
 
-        if(temp != null){
+        if(temp != null) {
             return temp;
         }
 
