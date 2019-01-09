@@ -19,33 +19,34 @@ class AssetManager {
         this.isSetUp = false;
 
         var request = new XMLHttpRequest();
-        request.addEventListener("load", function requestListener() {
-            this.assets = JSON.parse(this.responseText);
-            this.images = this.assets.imageList[0];
-            this.sounds = this.assets.soundsList[0];
+        
+        request.addEventListener("load", function requestListener(AssetManager) {
+            var assets = JSON.parse(this.responseText);
+            var images = assets.imageList[0];
+            var sounds = assets.soundsList[0];
 
-            for (var key in this.sounds) {
-                var value = this.sounds[key];
+            for (var key in sounds) {
+                var value = sounds[key];
                 var sound = new MySound(key, value);
-                gameNs.game.MyAssetManager.addSoundAsset(sound);
+                AssetManager.addSoundAsset(sound);
             }
 
-            for (var key2 in this.images) {
-                var path = this.images[key2][0];
-                var x = this.images[key2][1];
-                var y = this.images[key2][2];
-                var width = this.images[key2][3];
-                var height = this.images[key2][4];
-                var canvas = this.images[key2][5];
+            for (var key2 in images) {
+                var path = images[key2][0];
+                var x = images[key2][1];
+                var y = images[key2][2];
+                var width = images[key2][3];
+                var height = images[key2][4];
+                var canvas = images[key2][5];
 
                 var image = new MyImage(key2, x, y, width, height, canvas);
                 image.load(path);
-                gameNs.game.MyAssetManager.addImageAsset(image);
+                AssetManager.addImageAsset(image);
             }
 
-        gameNs.game.MyAssetManager.isLoaded = true;
+            AssetManager.isLoaded = true;
         console.log("json load");
-        });
+        }.bind(request, this));
 
         request.open("GET", assetspath);
         request.send();
