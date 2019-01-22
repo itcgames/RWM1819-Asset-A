@@ -23,7 +23,7 @@ class MySound {
             this.autoPlayWarning();
         }       
         this.sound.preload = "auto";
-        this.sound.autoplay = true;
+        //this.sound.autoplay = true;
         this.sound.src = path || "";
         document.body.appendChild(this.sound);
     }

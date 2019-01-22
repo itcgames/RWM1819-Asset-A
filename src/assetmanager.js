@@ -13,21 +13,31 @@ class AssetManager {
    * doesnt take in any parameters.
    */
     constructor (assetspath) {
+        this.storedassetspath = assetspath;
+        this.successCount = 0;
+        this.errorCount = 0;
+        this.downloadQueueImages = [];
+
         this.ImageAssets = [];
         this.SoundAssets = [];
-        this.isLoaded = false;
-        this.isSetUp = false;
 
-        var request = new XMLHttpRequest();
+        this.cache = {};
+
+        this.request = new XMLHttpRequest();
         
-        request.addEventListener("load", function requestListener(AssetManager) {
+        this.request.addEventListener("load", function requestListener(AssetManager) {
             var assets = JSON.parse(this.responseText);
             var images = assets.imageList[0];
             var sounds = assets.soundsList[0];
 
             for (var key in sounds) {
                 var value = sounds[key];
+
+                // Create Sound Object.
+                // Key = name of sound/id.
+                // Value path to sound file.
                 var sound = new MySound(key, value);
+                // Add sound object to asset manager.
                 AssetManager.addSoundAsset(sound);
             }
 
@@ -38,18 +48,17 @@ class AssetManager {
                 var width = images[key2][3];
                 var height = images[key2][4];
                 var canvas = images[key2][5];
+                
 
                 var image = new MyImage(key2, x, y, width, height, canvas);
+
                 image.load(path);
                 AssetManager.addImageAsset(image);
             }
 
-            AssetManager.isLoaded = true;
-        console.log("json load");
-        }.bind(request, this));
+        console.log("json loaded");
+        }.bind(this.request, this));
 
-        request.open("GET", assetspath);
-        request.send();
     }
 
     /**
@@ -93,10 +102,9 @@ class AssetManager {
         });
     }
 
-   
     /**
      * update Assets
-    * @function update
+     * @function update
      */
     update() {
         this.ImageAssets.forEach(function(i) {
@@ -128,4 +136,65 @@ class AssetManager {
         return null;
     }
 
+     /**
+     * Send request to load level
+     * @function LoadLevel
+     */
+    LoadLevel() {
+        this.request.open("GET", this.storedassetspath);
+        this.request.send();
+    }
+
+
+}
+
+/**
+ * Function to add to path to download Queue
+ * @function queueDownloadImage
+ * @param {String} String, path to download
+*/
+AssetManager.prototype.queueDownloadImage = function(path) {
+    this.downloadQueueImages.push(path);
+};
+
+
+/**
+ * Function to download all images paths in the download Queue
+ * @function downloadAllImages
+ * @param {Callback} Callback, callBack to download.
+*/
+AssetManager.prototype.downloadAllImages = function(downloadCallback) {
+    if (this.downloadQueueImages.length === 0) {
+        downloadCallback();
+    }
+    for (var i = 0; i < this.downloadQueueImages.length; i++) {
+      var path = this.downloadQueueImages[i];
+      var img = new Image();
+      var that = this;
+
+      img.addEventListener("load", function() {
+          that.successCount += 1;
+          if (that.isDone()) {
+            downloadCallback();
+        }
+      }, false);
+
+      img.addEventListener("error", function() {
+          that.errorCount += 1;
+          if (that.isDone()) {
+            downloadCallback();
+        }
+      }, false);
+      img.src = path;
+      this.cache[path] = img;
+    }
+};
+
+
+AssetManager.prototype.isDone = function() {
+    return (this.downloadQueueImages.length == this.successCount + this.errorCount);
+};
+
+AssetManager.prototype.getAsset = function(path) {
+    return this.cache[path];
 }
