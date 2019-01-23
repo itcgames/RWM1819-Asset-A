@@ -23,6 +23,8 @@ class AssetManager {
 
         this.cache = {};
 
+        this.loadComplete = false;
+
         this.request = new XMLHttpRequest();
         
         this.request.addEventListener("load", function requestListener(AssetManager) {
@@ -145,7 +147,38 @@ class AssetManager {
         this.request.send();
     }
 
+    /**
+     * Function to manage the loading Bar
+     * @function LoadingBar
+     */
+    LoadingBar() {
+        var elem = document.getElementById("myBar"); 
+        if(elem != undefined){
+            var width = 0;
+            var id = setInterval(frame.bind(this), 50);
 
+            function frame() {
+                if (width === 100) {
+                    width = ((this.successCount + this.errorCount) / this.downloadQueueImages.length) * 100; 
+                    elem.style.width = width + '%'; 
+                    elem.innerHTML = width * 1 + '%';
+
+                    this.loadComplete = true;
+
+                    clearInterval(id);
+                } else {
+                    if(width < ((this.successCount + this.errorCount) / this.downloadQueueImages.length) * 100)
+                    {
+                        width++;
+                    }
+
+                    elem.style.width = width + '%'; 
+                    elem.innerHTML = width * 1 + '%';
+                }
+            }
+        }
+    }
+    
 }
 
 /**
@@ -197,4 +230,4 @@ AssetManager.prototype.isDone = function() {
 
 AssetManager.prototype.getAsset = function(path) {
     return this.cache[path];
-}
+};
