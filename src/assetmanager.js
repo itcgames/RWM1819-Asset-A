@@ -272,13 +272,15 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
       soundFile.src = path;
       document.body.appendChild(soundFile);
       this.cache[path] = soundFile;
-      downloadCallback();
+      if (that.isDone()) {
+            downloadCallback();
+        }
     }
 };
 
 
 AssetManager.prototype.isDone = function() {
-    return (this.downloadQueueImages.length == this.successCount + this.errorCount);
+    return (this.downloadQueueImages.length + this.downloadQueueSounds.length == this.successCount + this.errorCount);
 };
 
 AssetManager.prototype.getAsset = function(path) {
