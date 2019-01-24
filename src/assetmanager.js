@@ -272,6 +272,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
       soundFile.src = path;
       document.body.appendChild(soundFile);
       this.cache[path] = soundFile;
+      downloadCallback();
     }
 };
 
