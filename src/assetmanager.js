@@ -269,7 +269,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
         }
       }, false);
       soundFile.src = path;
-      document.body.appendChild(this.soundFile);
+      document.body.appendChild(soundFile);
       this.cache[path] = soundFile;
     }
 };
