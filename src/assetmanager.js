@@ -17,6 +17,7 @@ class AssetManager {
         this.successCount = 0;
         this.errorCount = 0;
         this.downloadQueueImages = [];
+        this.downloadQueueSounds = [];
 
         this.ImageAssets = [];
         this.SoundAssets = [];
@@ -158,18 +159,20 @@ class AssetManager {
             var id = setInterval(frame.bind(this), 50);
 
             function frame() {
-                console.log("Queue Length: " + this.downloadQueueImages.length);
+                console.log("Queue Length: " + (this.downloadQueueImages.length + this.downloadQueueSounds.length));
+                console.log("Image Queue Length: " + this.downloadQueueImages.length);
+                console.log("Sound Queue Length: " + this.downloadQueueSounds.length);
                 console.log("Success Count: " + this.successCount);
                 console.log("Error Count: " + this.errorCount);
 
                 if (width >= 100) {
-                    width = ((this.successCount + this.errorCount) / this.downloadQueueImages.length) * 100; 
+                    width = ((this.successCount + this.errorCount) / (this.downloadQueueImages.length + this.downloadQueueSounds.length)) * 100; 
                     elem.style.width = width + '%'; 
                     elem.innerHTML = width * 1 + '%';
                     clearInterval(id);
                     this.loadComplete = true;
                 } else {
-                    if(width < ((this.successCount + this.errorCount) / this.downloadQueueImages.length) * 100)
+                    if(width < ((this.successCount + this.errorCount) / (this.downloadQueueImages.length + this.downloadQueueSounds.length)) * 100)
                     {
                         width++;
                     }
@@ -224,6 +227,49 @@ AssetManager.prototype.downloadAllImages = function(downloadCallback) {
       }, false);
       img.src = path;
       this.cache[path] = img;
+    }
+};
+
+/**
+ * Function to add to path to download Queue
+ * @function queueDownloadSound
+ * @param {String} String, path to download
+*/
+AssetManager.prototype.queueDownloadSound = function(path) {
+    this.downloadQueueSounds.push(path);
+};
+
+/**
+ * Function to download all Sound paths in the download Queue
+ * @function downloadAllSounds
+ * @param {Callback} Callback, callBack to download.
+*/
+AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
+    if (this.downloadQueueSounds.length === 0) {
+        downloadCallback();
+    }
+    for (var i = 0; i < this.downloadQueueSounds.length; i++) {
+      var path = this.downloadQueueSounds[i];
+      var soundFile = new Sound();
+      var that = this;
+
+      soundFile.addEventListener("load", function() {
+        console.log("Loaded Sound: " + this.src);
+          that.successCount += 1;
+          if (that.isDone()) {
+            downloadCallback();
+        }
+      }, false);
+
+      soundFile.addEventListener("error", function() {
+          console.log("Error Loading Sound: " + this.src);
+          that.errorCount += 1;
+          if (that.isDone()) {
+            downloadCallback();
+        }
+      }, false);
+      soundFile.src = path;
+      this.cache[path] = soundFile;
     }
 };
 
