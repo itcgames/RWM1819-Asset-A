@@ -206,6 +206,7 @@ AssetManager.prototype.downloadAllImages = function(downloadCallback) {
       var that = this;
 
       img.addEventListener("load", function() {
+        console.log("Loaded Image: " + this.src);
           that.successCount += 1;
           if (that.isDone()) {
             downloadCallback();
@@ -213,6 +214,7 @@ AssetManager.prototype.downloadAllImages = function(downloadCallback) {
       }, false);
 
       img.addEventListener("error", function() {
+          console.log("Error Loading Image: " + this.src);
           that.errorCount += 1;
           if (that.isDone()) {
             downloadCallback();
