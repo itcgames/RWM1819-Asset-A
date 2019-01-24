@@ -250,7 +250,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
     }
     for (var i = 0; i < this.downloadQueueSounds.length; i++) {
       var path = this.downloadQueueSounds[i];
-      var soundFile = new Sound();
+      var soundFile = document.createElement("audio");;
       var that = this;
 
       soundFile.addEventListener("load", function() {
@@ -269,6 +269,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
         }
       }, false);
       soundFile.src = path;
+      document.body.appendChild(this.soundFile);
       this.cache[path] = soundFile;
     }
 };
