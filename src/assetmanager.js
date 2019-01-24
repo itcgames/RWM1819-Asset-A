@@ -158,14 +158,16 @@ class AssetManager {
             var id = setInterval(frame.bind(this), 50);
 
             function frame() {
-                if (width === 100) {
+                console.log("Queue Length: " + this.downloadQueueImages.length);
+                console.log("Success Count: " + this.successCount);
+                console.log("Error Count: " + this.errorCount);
+
+                if (width >= 100) {
                     width = ((this.successCount + this.errorCount) / this.downloadQueueImages.length) * 100; 
                     elem.style.width = width + '%'; 
                     elem.innerHTML = width * 1 + '%';
-
-                    this.loadComplete = true;
-
                     clearInterval(id);
+                    this.loadComplete = true;
                 } else {
                     if(width < ((this.successCount + this.errorCount) / this.downloadQueueImages.length) * 100)
                     {
