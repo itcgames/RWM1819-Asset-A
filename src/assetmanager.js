@@ -253,7 +253,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
       var soundFile = document.createElement("audio");;
       var that = this;
 
-      soundFile.addEventListener("load", function() {
+      soundFile.addEventListener("onload", function() {
         console.log("Loaded Sound: " + this.src);
           that.successCount += 1;
           if (that.isDone()) {
@@ -261,7 +261,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
         }
       }, false);
 
-      soundFile.addEventListener("error", function() {
+      soundFile.addEventListener("onerror", function() {
           console.log("Error Loading Sound: " + this.src);
           that.errorCount += 1;
           if (that.isDone()) {
