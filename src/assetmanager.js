@@ -26,6 +26,10 @@ class AssetManager {
 
         this.loadComplete = false;
 
+        // For Json use only
+        this.isLoaded = false;
+        this.isSetUp = false;
+
         this.request = new XMLHttpRequest();
         
         this.request.addEventListener("load", function requestListener(AssetManager) {
@@ -55,10 +59,11 @@ class AssetManager {
 
                 var image = new MyImage(key2, x, y, width, height, canvas);
 
-                image.load(path);
+                image.load(path);   
                 AssetManager.addImageAsset(image);
             }
 
+            AssetManager.isLoaded = true;
         console.log("json loaded");
         }.bind(this.request, this));
 

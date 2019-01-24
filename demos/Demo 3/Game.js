@@ -18,6 +18,7 @@ class Game {
 
     // Create an Asset manager
     this.MyAssetManager = new AssetManager("jsonAssets.json");
+    this.MyAssetManager.LoadLevel();
 
   }
 
