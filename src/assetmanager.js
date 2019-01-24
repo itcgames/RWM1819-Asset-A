@@ -250,16 +250,16 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
     }
     for (var i = 0; i < this.downloadQueueSounds.length; i++) {
       var path = this.downloadQueueSounds[i];
-      var soundFile = document.createElement("audio");;
+      var soundFile = document.createElement("audio");
       var that = this;
 
-      soundFile.addEventListener("onload", function() {
-        console.log("Loaded Sound: " + this.src);
+     // soundFile.addEventListener("onload", function() {
+        //console.log("Loaded Sound: " + this.src);
           that.successCount += 1;
-          if (that.isDone()) {
-            downloadCallback();
-        }
-      }, false);
+       //   if (that.isDone()) {
+        //    downloadCallback();
+       // }
+     // }, false);
 
       soundFile.addEventListener("onerror", function() {
           console.log("Error Loading Sound: " + this.src);
@@ -268,6 +268,7 @@ AssetManager.prototype.downloadAllSounds = function(downloadCallback) {
             downloadCallback();
         }
       }, false);
+
       soundFile.src = path;
       document.body.appendChild(soundFile);
       this.cache[path] = soundFile;
