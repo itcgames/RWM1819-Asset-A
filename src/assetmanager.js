@@ -179,7 +179,7 @@ class AssetManager {
                 } else {
                     if(width < ((this.successCount + this.errorCount) / (this.downloadQueueImages.length + this.downloadQueueSounds.length)) * 100)
                     {
-                        width++;
+                        width += 2;
                     }
 
                     elem.style.width = width + '%'; 
